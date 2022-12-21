@@ -12,9 +12,9 @@ const serializers = {
         </HighlightCode>
       );
     },
-    image: ({ node: { asset, alt } }) => {
+    image: ({ node: { asset, alt, position } }) => {
       return (
-        <div className="blog-image">
+        <div className={`blog-image blog-image-${position}`}>
           <img src={urlFor(asset).height(300).fit("max").url()} />
           <div className="image-alt">{alt}</div>
         </div>
@@ -24,11 +24,7 @@ const serializers = {
 };
 
 const BlogContent = ({ content }) => (
-  <BlockContent
-    imageOptions={{ w: 320, h: 240, fit: "max" }}
-    serializers={serializers}
-    blocks={content}
-  />
+  <BlockContent serializers={serializers} blocks={content} />
 );
 
 export { BlogContent };

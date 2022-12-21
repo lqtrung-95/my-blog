@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/react-fontawesome": "^0.1.19",
     "@next/font": "13.0.7",
     "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/client": "^3.4.1",

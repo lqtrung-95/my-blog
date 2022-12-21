@@ -6,7 +6,6 @@ const HighlightCode = ({ children, language }) => {
   const code = createRef();
 
   useEffect(() => {
-    debugger;
     // eslint-disable-next-line react/no-find-dom-node
     highlight.highlightBlock(findDOMNode(code.current));
   }, []);
