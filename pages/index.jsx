@@ -1,12 +1,15 @@
 import { useState } from "react";
-
+import { useGetBlogs } from "actions";
 import { Row, Col } from "react-bootstrap";
 import { PageLayout, AuthorIntro, CardItem, CardListItem } from "components";
 import { getAllBlogs } from "lib/api";
 import FilteringMenu from "components/FilteringMenu";
 
-export default function Home({ blogs }) {
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
+export default function Home({ blogs: initialData }) {
   const [filter, setFilter] = useState({ view: { list: 0 } });
+  const { data: blogs, error } = useGetBlogs(initialData);
   return (
     <PageLayout>
       <AuthorIntro />
@@ -61,7 +64,7 @@ export default function Home({ blogs }) {
 // It will create static page
 export async function getStaticProps() {
   console.log("Calling getStaticProps");
-  const blogs = await getAllBlogs();
+  const blogs = await getAllBlogs({ offset: 0 });
   return {
     props: {
       blogs,
