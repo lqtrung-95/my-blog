@@ -16,6 +16,6 @@
     "incremental": true,
     "baseUrl": "."
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/index.jsx", "components/Navbar.jsx", "components/CardListItem.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/index.jsx", "components/Navbar.jsx", "components/CardListItem.jsx", "pages/_app.jsx"],
   "exclude": ["node_modules"]
 }
