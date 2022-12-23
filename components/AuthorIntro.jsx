@@ -17,7 +17,7 @@ const AuthorIntro = () => (
           <h5 className="font-weight-bold mb-0">Hello Friends,</h5>
           <p className="welcome-text">
             My name is Trung Le and I am an experienced software engineer and
-            freelance developer, and this is my blog page.
+            freelance developer. and this is my blog page.
           </p>
         </Media.Body>
       </Media>
@@ -26,4 +26,4 @@ const AuthorIntro = () => (
   </Row>
 );
 
-export { AuthorIntro };
+export default AuthorIntro;

@@ -1,73 +1,98 @@
 import { useState } from "react";
-import { useGetBlogs } from "actions";
-import { Row, Col } from "react-bootstrap";
-import { PageLayout, AuthorIntro, CardItem, CardListItem } from "components";
-import { getAllBlogs } from "lib/api";
+
+import { Row, Button } from "react-bootstrap";
+import PageLayout from "components/PageLayout";
+import AuthorIntro from "components/AuthorIntro";
 import FilteringMenu from "components/FilteringMenu";
+import PreviewAlert from "components/PreviewAlert";
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+import { useGetBlogsPages } from "actions/pagination";
+import { getPaginatedBlogs } from "lib/api";
 
-export default function Home({ blogs: initialData }) {
-  const [filter, setFilter] = useState({ view: { list: 0 } });
-  const { data: blogs, error } = useGetBlogs(initialData);
+import { Col } from "react-bootstrap";
+import CardItem from "components/CardItem";
+import CardItemBlank from "components/CardItemBlank";
+import CardListItem from "components/CardListItem";
+import CardListItemBlank from "components/CardListItemBlank";
+import moment from "moment";
+
+export const BlogList = ({ data = [], filter }) => {
+  return data.map((page) =>
+    page.map((blog) =>
+      filter.view.list ? (
+        <Col key={`${blog.slug}-list`} md="9">
+          <CardListItem
+            author={blog.author}
+            title={blog.title}
+            subtitle={blog.subtitle}
+            date={moment(blog.date).format("LL")}
+            link={{
+              href: "/blogs/[slug]",
+              as: `/blogs/${blog.slug}`,
+            }}
+          />
+        </Col>
+      ) : (
+        <Col key={blog.slug} lg="4" md="6">
+          <CardItem
+            author={blog.author}
+            title={blog.title}
+            subtitle={blog.subtitle}
+            date={moment(blog.date).format("LL")}
+            image={blog.coverImage}
+            link={{
+              href: "/blogs/[slug]",
+              as: `/blogs/${blog.slug}`,
+            }}
+          />
+        </Col>
+      )
+    )
+  );
+};
+
+export default function Home({ blogs, preview }) {
+  const [filter, setFilter] = useState({
+    view: { list: 0 },
+    date: { asc: 0 },
+  });
+
+  const { data, size, setSize, hitEnd } = useGetBlogsPages({ filter });
+
   return (
     <PageLayout>
+      {preview && <PreviewAlert />}
       <AuthorIntro />
       <FilteringMenu
         filter={filter}
-        onChange={(option, value) => {
-          setFilter({ ...filter, [option]: value });
-        }}
+        onChange={(option, value) => setFilter({ ...filter, [option]: value })}
       />
       <hr />
       <Row className="mb-5">
-        {/* <Col md="10">
-          <CardListItem />
-        </Col> */}
-        {blogs.map((blog) =>
-          filter.view.list ? (
-            <Col md="9" key={`${blog.slug}-list`}>
-              <CardListItem
-                author={blog.author}
-                title={blog.title}
-                subtitle={blog.subtitle}
-                date={blog.date}
-                link={{
-                  href: "/blogs/[slug]",
-                  as: `/blogs/${blog.slug}`,
-                }}
-              />
-            </Col>
-          ) : (
-            <Col key={blog.slug} md="4">
-              <CardItem
-                author={blog.author}
-                title={blog.title}
-                subtitle={blog.subtitle}
-                date={blog.date}
-                image={blog.coverImage}
-                link={{
-                  href: "/blogs/[slug]",
-                  as: `/blogs/${blog.slug}`,
-                }}
-              />
-            </Col>
-          )
-        )}
+        <BlogList data={data || [blogs]} filter={filter} />
       </Row>
+      <div style={{ textAlign: "center" }}>
+        <Button
+          onClick={() => setSize(size + 1)}
+          disabled={hitEnd}
+          size="lg"
+          variant="outline-secondary"
+        >
+          {/* {isLoadingMore ? '...' : isReachingEnd ? 'No more blogs' : 'More Blogs'} */}
+          Load More
+        </Button>
+      </div>
     </PageLayout>
   );
 }
 
-// This function is called during the build (build time)
-// Provides props to your page
-// It will create static page
-export async function getStaticProps() {
-  console.log("Calling getStaticProps");
-  const blogs = await getAllBlogs({ offset: 0 });
+export async function getStaticProps({ preview = false }) {
+  const blogs = await getPaginatedBlogs({ offset: 0, date: "desc" });
   return {
     props: {
       blogs,
+      preview,
     },
+    revalidate: 1,
   };
 }

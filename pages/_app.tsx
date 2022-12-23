@@ -1,17 +1,31 @@
-import 'styles/globals.css'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'styles/index.scss'
-import 'highlight.js/styles/magula.css';
+
+
+import ThemeProvider from 'providers/ThemeProvider';
 import { library, config } from '@fortawesome/fontawesome-svg-core';
-import { faBorderAll, faList } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSun,
+  faMoon,
+  faBorderAll,
+  faList,
+  faSortNumericDown,
+  faSortNumericUp } from '@fortawesome/free-solid-svg-icons';
 
 config.autoAddCss = false;
-library.add(faList, faBorderAll);
+library.add(
+  faSun,
+  faMoon,
+  faList,
+  faBorderAll,
+  faSortNumericDown,
+  faSortNumericUp);
 
 import '@fortawesome/fontawesome-svg-core/styles.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'highlight.js/styles/magula.css';
+import "react-toggle/style.css"
+import 'styles/index.scss';
 
-import type { AppProps } from 'next/app'
-
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
-}
+export default ({Component, pageProps}) =>
+  <ThemeProvider>
+    <Component {...pageProps} />
+  </ThemeProvider>
