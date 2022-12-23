@@ -25,9 +25,11 @@ import 'highlight.js/styles/magula.css';
 import "react-toggle/style.css"
 import 'styles/index.scss';
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default function App({Component, pageProps}) {
-  return (<ThemeProvider>
+const MyApp = ({Component, pageProps}) =>
+  <ThemeProvider>
     <Component {...pageProps} />
-  </ThemeProvider>)
-}
+  </ThemeProvider>
+
+MyApp.displayName = 'MyApp'
+
+export default MyApp
