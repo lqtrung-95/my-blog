@@ -3,13 +3,19 @@ import { createContext } from "react";
 export const themes = {
   light: {
     type: "light",
-    fontColor: "#2b2c38",
-    background: "#f4f7f9",
+    fontColor: "#0F172A",
+    background: "#CBD5E1",
+    cardBg: "#F5F5F5",
+    btnBg: "#5182B8",
+    btnText: "#FFFFFF",
   },
   dark: {
     type: "dark",
-    fontColor: "#dcdcdc",
-    background: "#2b2c38",
+    fontColor: "#CBD5E1",
+    background: "#0F172A",
+    cardBg: "#1E293B",
+    btnBg: "#335577",
+    btnText: "#FFFFFF",
   },
 };
 

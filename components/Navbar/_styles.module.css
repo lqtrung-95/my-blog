@@ -1,0 +1,14 @@
+.navbarItem {
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: capitalize !important;
+  margin-left: 0px !important;
+
+  @media (min-width: 992px) {
+    margin-left: 10px !important;
+  }
+}
+
+.navbar button:focus {
+  outline: 1px dotted !important;
+}

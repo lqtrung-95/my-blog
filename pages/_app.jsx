@@ -24,6 +24,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "highlight.js/styles/magula.css";
 import "react-toggle/style.css";
 import "styles/index.scss";
+import "styles/globals.css";
 
 const MyApp = ({ Component, pageProps }) => (
   <ThemeProvider>
